@@ -71,7 +71,7 @@
             stroke: #00447E; /* Adding a border color */
             stroke-width: 2; /* Border width */
             /* filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.3)); Adding shadow */
-            animation: pulse 2s ease-in-out infinite;
+            /* animation: pulse 2s ease-in-out infinite; */
         }
 
         @keyframes pulse {
@@ -130,7 +130,14 @@
             <line id="needle" x1="150" y1="150" x2="150" y2="75" class="needle"></line>
 
             <!-- Slider thumb -->
-            <circle id="thumb" cx="150" cy="50" r="13" class="thumb"></circle>
+            <circle id="thumb" cx="150" cy="50" r="13" class="thumb">
+                <animate
+                  attributeName="r"
+                  values="13; 15; 13"
+                  dur="2s"
+                  repeatCount="indefinite"
+                />
+              </circle>
 
             <!-- Slider root -->
             <circle id="root" cx="150" cy="150" r="10" class="root"></circle>
@@ -157,6 +164,8 @@
                     <feGaussianBlur stdDeviation="1" />
                 </filter>
               </defs>
+
+              
         </svg>
     </div>
         <div class="labels">
