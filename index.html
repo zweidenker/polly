@@ -216,15 +216,10 @@
         let lastThumbPosition = { x: 150, y: 50 };
         const needleLength = 75; // Constant length for the needle
         let entity = null; // apptive entitiy 
-        // Desktop event listeners
-        thumb.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', onDrag);
-        document.addEventListener('mouseup', endDrag);
-
-        // Mobile event listeners
-        thumb.addEventListener('touchstart', startDrag);
-        document.addEventListener('touchmove', onDrag);
-        document.addEventListener('touchend', endDrag);
+        // Pointer event listeners
+        thumb.addEventListener('pointerdown', startDrag);
+        document.addEventListener('pointermove', onDrag);
+        document.addEventListener('pointerup', endDrag);
 
         function startDrag(e) {
             if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
