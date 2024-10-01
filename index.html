@@ -227,6 +227,7 @@
         document.addEventListener('touchend', endDrag);
 
         function startDrag(e) {
+            e.preventDefault();
             if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
                 pollyMessageListener.postMessage('startDrag');
             } else {
@@ -238,6 +239,7 @@
         }
 
         function onDrag(e) {
+            e.preventDefault();
             if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
                 pollyMessageListener.postMessage('onDrag');
             } else {
@@ -260,7 +262,9 @@
             lastThumbPosition = { x, y }; // Store the final thumb position
         }
 
-        function endDrag() {
+        function endDrag(e) {
+            e.preventDefault();
+
             if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
                 pollyMessageListener.postMessage('endDrag');
             } else {
