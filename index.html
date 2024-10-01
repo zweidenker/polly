@@ -227,7 +227,7 @@
         document.addEventListener('touchend', endDrag);
 
         function startDrag(e) {
-            if (pollyMessageListener && typeof pollyMessageListener.postMessage === 'function') {
+            if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
                 pollyMessageListener.postMessage('startDrag');
             } else {
                 console.warn('pollyMessageListener is not defined or does not support postMessage');
@@ -238,7 +238,7 @@
         }
 
         function onDrag(e) {
-            if (pollyMessageListener && typeof pollyMessageListener.postMessage === 'function') {
+            if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
                 pollyMessageListener.postMessage('onDrag');
             } else {
                 console.warn('pollyMessageListener is not defined or does not support postMessage');
@@ -261,7 +261,7 @@
         }
 
         function endDrag() {
-            if (pollyMessageListener && typeof pollyMessageListener.postMessage === 'function') {
+            if (typeof pollyMessageListener !== 'undefined' && pollyMessageListener !== null) {
                 pollyMessageListener.postMessage('endDrag');
             } else {
                 console.warn('pollyMessageListener is not defined or does not support postMessage');
