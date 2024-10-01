@@ -227,12 +227,14 @@
         document.addEventListener('touchend', endDrag);
 
         function startDrag(e) {
+            pollyMessageListener.postMessage('startDrag')
             isDragging = true;
             e.preventDefault();
             document.getElementById('arrows').style.visibility = 'hidden';
         }
 
         function onDrag(e) {
+            pollyMessageListener.postMessage('onDrag')
             if (!isDragging) return;
 
             let clientX = e.clientX || e.touches[0].clientX;
@@ -251,6 +253,8 @@
         }
 
         function endDrag() {
+            pollyMessageListener.postMessage('endDrag')
+
             isDragging = false;
             if (userResult === null) return;
             if (hasSubmitted) {
