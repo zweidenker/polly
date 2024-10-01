@@ -227,14 +227,22 @@
         document.addEventListener('touchend', endDrag);
 
         function startDrag(e) {
-            pollyMessageListener.postMessage('startDrag')
+            if (pollyMessageListener && typeof pollyMessageListener.postMessage === 'function') {
+                pollyMessageListener.postMessage('startDrag');
+            } else {
+                console.warn('pollyMessageListener is not defined or does not support postMessage');
+            }
             isDragging = true;
             e.preventDefault();
             document.getElementById('arrows').style.visibility = 'hidden';
         }
 
         function onDrag(e) {
-            pollyMessageListener.postMessage('onDrag')
+            if (pollyMessageListener && typeof pollyMessageListener.postMessage === 'function') {
+                pollyMessageListener.postMessage('onDrag');
+            } else {
+                console.warn('pollyMessageListener is not defined or does not support postMessage');
+            }
             if (!isDragging) return;
 
             let clientX = e.clientX || e.touches[0].clientX;
@@ -253,8 +261,11 @@
         }
 
         function endDrag() {
-            pollyMessageListener.postMessage('endDrag')
-
+            if (pollyMessageListener && typeof pollyMessageListener.postMessage === 'function') {
+                pollyMessageListener.postMessage('endDrag');
+            } else {
+                console.warn('pollyMessageListener is not defined or does not support postMessage');
+            }
             isDragging = false;
             if (userResult === null) return;
             if (hasSubmitted) {
