@@ -211,6 +211,8 @@
     </div>
 
     <script>
+        const DEFAULT_POLLY_URL = 'https://app.apptivegrid.de/api/users/62398e23b8b578b35b971df0/spaces/66bcc1d7f549cad6d6dbf2be/grids/66bcc1dcf549ca6236dbf2c4/entities/BqWFtLCV6KM?layout=key';
+
         const thumb = document.getElementById('thumb');
         const needle = document.getElementById('needle');
         const valueDisplay = document.getElementById('valueDisplay');
@@ -310,6 +312,7 @@
                     hasSubmitted = true; // Mark as submitted
                     drawCircles();
                     calculatePercentages(entity);
+                    setVoteSubmitted();
                 })
                 .catch(error => {
                     console.error('Failed to post data:', error);
@@ -427,7 +430,7 @@
         });
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const url = urlParams.get('url') || 'https://app.apptivegrid.de/api/users/62398e23b8b578b35b971df0/spaces/66bcc1d7f549cad6d6dbf2be/grids/66bcc1dcf549ca6236dbf2c4/entities/BqWFtLCV6KM?layout=key';
+            const url = urlParams.get('url') || DEFAULT_POLLY_URL;
             const username = urlParams.get('username') || '23bd064465e583233eab7807507a715c';
             const password = urlParams.get('password') || 'a7hkqxt2qj8rfverccyzn4agt';
             
@@ -452,7 +455,9 @@
                     document.getElementById('question').textContent = data['question'] || 'No question found in response.';
                     document.getElementById('answer1').textContent = data['answer_1'] || 'No answer_1 found in response.';
                     document.getElementById('answer2').textContent = data['answer_2'] || 'No answer_2 found in response.';
-                    document.getElementById('numberOfResultsDisplay').textContent = data['numberOfResults']['value'] || 'No numberOfResults found in response.';
+                    if (previouslySubmitted()) {
+                        showResults();
+                    }
                 })
                 .catch(error => {
                     document.getElementById('valueDisplay').textContent = 'Fehler: ' + error.message;
@@ -461,6 +466,39 @@
                 document.getElementById('valueDisplay').textContent = 'Fehler: URL, Benutzername oder Passwort fehlen in den Parametern.';
             }
     });
+
+    function getPollyEntity() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('url') || DEFAULT_POLLY_URL;
+    }
+
+    function getVotedUrlArray() {
+        const stringArray = localStorage.getItem('voteUrl')
+        if (!stringArray) {
+            return []
+        }
+        return JSON.parse(stringArray)
+    }
+
+    function setVoteSubmitted() {
+        const array = getVotedUrlArray();
+        array.push(getPollyEntity());
+        localStorage.setItem('voteUrl', JSON.stringify(array));
+    }
+
+    function previouslySubmitted() {
+        const array = getVotedUrlArray();
+        return array.includes(getPollyEntity());
+    }
+
+    function showResults() {
+        hasSubmitted = true; // Mark as submitted
+        document.getElementById('needle').setAttribute('style', 'display: none')
+        document.getElementById('thumb').setAttribute('style', 'display: none')
+        document.getElementById('arrows').setAttribute('style', 'display: none')
+        drawCircles();
+        calculatePercentages(entity);
+    }
 
     async function postDataToApptiveGrid(data) {
         const url = entity['flow_uri'];
