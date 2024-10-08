@@ -13,7 +13,11 @@
             align-items: center;
             background-color: #ffffff;
             font-family: Arial, Helvetica, sans-serif;
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
             user-select: none;
             width: 100vw;
             height: 100vh;
@@ -221,10 +225,16 @@
         let lastThumbPosition = { x: 150, y: 50 };
         const needleLength = 75; // Constant length for the needle
         let entity = null; // apptive entitiy 
-        // Pointer event listeners
-        thumb.addEventListener('pointerdown', startDrag);
-        document.addEventListener('pointermove', onDrag);
-        document.addEventListener('pointerup', endDrag);
+
+        // Desktop Event
+        thumb.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', endDrag);
+
+        // Mobile event listeners
+        thumb.addEventListener('touchstart', startDrag);
+        document.addEventListener('touchmove', onDrag);
+        document.addEventListener('touchend', endDrag);
 
 
         function startDrag(e) {
