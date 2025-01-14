@@ -317,6 +317,8 @@
                 .then(result => {
                     console.log('Data successfully posted:', result);
                     hasSubmitted = true; // Mark as submitted
+                    entity[data.result] = entity[data.result] + 1;
+                    entity.numberOfResults.value = entity.numberOfResults.value + 1;
                     drawCircles();
                     calculatePercentages(entity);
                     setVoteSubmitted();
@@ -642,9 +644,9 @@
 
             // Return the results as an object
             let result = {
-                range_0_3: percentageRange1 + '%',
-                range_4_6: percentageRange2 + '%',
-                range_7_10: percentageRange3 + '%'
+                range_0_3: (percentageRange1 || 0) + '%',
+                range_4_6: (percentageRange2 || 0) + '%',
+                range_7_10: (percentageRange3 || 0) + '%'
             };
             const valueDisplay1_3 = document.getElementById('valueDisplay1_3');
             const valueDisplay2_3 = document.getElementById('valueDisplay2_3');
